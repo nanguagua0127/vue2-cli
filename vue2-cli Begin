@@ -1,1 +1,9 @@
-1.安装 npm install vue-cli -g
+1.安装 npm install vue-cli -g   (测试是否安装成功：vue -V)
+2.初始化vue项目: 
+  vue init <模板名称> <项目名称>
+  例如: vue init webpack helloworld
+  初始化完成之后，根据命令提示依次输入：
+     To get started:
+      cd helloworld
+      npm install
+      npm run dev
