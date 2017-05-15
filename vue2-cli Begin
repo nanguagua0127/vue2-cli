@@ -6,4 +6,6 @@
      To get started:
       cd helloworld
       npm install
+      这一步安装完之后，安装vue生产环境的支持:
+        npm install --production
       npm run dev
