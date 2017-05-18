@@ -9,3 +9,5 @@
       这一步安装完之后，安装vue生产环境的支持:
         npm install --production
       npm run dev
+3.安装vue-router:
+  npm install vue-router --save-dev 
