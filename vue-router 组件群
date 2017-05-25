@@ -1,0 +1,45 @@
+import Vue from "vue";
+import VueRouter from "vue-router";
+Vue.use(VueRouter)
+
+const First = { template: "<div>first内容</div>" };
+const Second = { template:"<div>sceond内容</div>" };
+const Home = { template:"<div>Home内容</div>" };
+const hehe = { template:"<div>hehe内容</div>" };
+
+
+const router = new VueRouter({
+	mode:"history",
+	base:__dirname,
+	routes:[
+		{path:"/",components:{
+			default:Home,
+			left:First,
+			right:Second
+		}},
+		{path:"/First",components:{
+			default:hehe,
+			left:First,
+			right:Second
+		}},
+	]
+})
+
+
+new Vue({
+	router,
+	template:`
+		<div id="r">
+			<h1>导航</h1>
+			<p>{{ $route.name }}</p>
+
+			<ol>
+				<li><router-link to="/">Home</router-link></li>
+				<li><router-link to="/First">First</router-link></li>
+			</ol>
+			<router-view></router-view>
+			<router-view name="left" style="background:blue;color:pink;"></router-view>
+			<router-view name="right" style="background:red;color:yellow;"></router-view>
+		</div>
+	`
+}).$mount("#app")
