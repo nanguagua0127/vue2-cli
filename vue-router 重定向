@@ -1,0 +1,100 @@
+import Vue from "vue";
+import VueRouter from "vue-router";
+Vue.use(VueRouter)
+
+const First = { template: "<div>first内容</div>" };
+const Second = { template:"<div>sceond内容</div>" };
+const Home = { template:"<div>Home内容</div>" };
+const FirstFirst = { template:"<div> {{ $route.name }} FirstFirst内容 {{ $route.params.id }} </div>  " };
+const FirstSecond = { template:"<div> {{ $route.name }} FirstSecond内容 {{ $route.params.id }} </div>" };
+
+
+const asdf = {
+	template:`
+		<div class="asdf">
+			<h2>组件</h2>
+			<router-view></router-view>
+		</div>
+	`	
+};
+
+
+const router = new VueRouter({
+	mode:"history",
+	base:__dirname,
+	routes:[
+		{path:"/",name:"Home",component:Home},
+		{path:"/First",component:asdf,
+			children:[
+				{path:"/",name:"Home-First",component:First},
+				{path:"First",name:"Home-First-First",component:FirstFirst},
+				{path:'Second',name:"Home-First-Second",component:FirstSecond},
+				{path:"third",redirect:"First"}
+			]
+		},
+		{path:"/Second",name:"Home-Second",component:Second},
+
+		{path:"/aaa/:id",component:FirstFirst},
+
+		{path:"/bbb/:id",redirect:"/aaa/:id"},
+
+		{
+			path:"/ccc/:id",
+			redirect:
+			// function(xxxx){
+			// 	var { hash,params,query } = xxxx;
+			// 	if(params.id == "001"){
+			// 		return "/"
+			// 	}else if(params.id == "002"){
+			// 		return "/aaa/:id"
+			// 	}else if(params.id == "003"){
+			// 		return "/bbb/:id"
+			// 	}
+			// }//ES5写法 
+			
+			xxxx => {
+				const { hash,params,query } = xxxx;
+				if(params.id == "001"){
+					return "/"
+				}else if(params.id == "002"){
+					return "/aaa/:id"
+				}else if(params.id == "003"){
+					return "/bbb/:id"
+				}
+			}//ES6写法 
+ 		}
+	]
+})
+
+
+new Vue({
+	router,
+	template:`
+		<div id="r">
+			<h1>导航</h1>
+			<p>{{ $route.name }}</p>
+
+			<ol>
+				<li><router-link to="/">Home</router-link></li>
+				<li><router-link to="/First">First</router-link></li>
+					<ol>
+						<li><router-link v-bind:to="{name:'Home-First-First',params:{id:123}}">FirstFirst</router-link></li>
+						<li><router-link v-bind:to="{name:'Home-First-Second',params:{id:321}}">FirstSecond</router-link></li>
+						<li><router-link to="third">third</router-link></li>
+					</ol>
+				<li><router-link to="/Second">Second</router-link></li>
+
+				<li><router-link to="/aaa/456">aaa</router-link></li>
+
+				<li><router-link to="/bbb/789">bbb</router-link></li>
+
+				<li><router-link to="/ccc/001">/ccc/001</router-link></li>
+
+				<li><router-link to="/ccc/002">/ccc/002</router-link></li>
+
+				<li><router-link to="/ccc/003">/ccc/003</router-link></li>
+			</ol>
+			<router-view></router-view>
+		</div>
+	`
+}).$mount("#app")
