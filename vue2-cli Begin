@@ -11,3 +11,5 @@
       npm run dev
 3.安装vue-router:
   npm install vue-router --save-dev 
+4.安装vuex
+  npm install --save vuex
