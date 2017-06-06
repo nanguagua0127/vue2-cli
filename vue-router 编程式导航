@@ -1,0 +1,118 @@
+==============================Router-6-6.js========================================
+
+
+import Vue from "vue";
+import VueRouter from "vue-router";
+import Transition from "./transition.vue";
+Vue.use(VueRouter)
+
+const Home = {
+	template:`
+		<div>
+			<h2>Home</h2>
+			<p>This is Home</p>
+			<p>{{ $route.query.a }}</p>
+			<p>{{ $route.query.b }}</p>
+		</div>
+	`
+}
+
+const Parent = {
+	template:`
+		<div>
+			<h2>Parent</h2>
+			<p>This is Parent</p>
+		</div>
+	`
+}
+
+const Page404 = {
+	template:`
+		<div>
+			<h2>Error:404</h2>
+		</div>
+	`
+}
+
+const Test404 = {
+	template:`
+		<div>
+			<h2>测试404是否显示</h2>
+		</div>
+	`
+}
+
+
+const router = new VueRouter({
+	mode:"history",
+	base:__dirname,
+	routes:[
+		{path:"/",component:Home},
+		{path:"/Parent",component:Parent},
+		{path:"/Transition",component:Transition},
+		{path:"*",component:Page404},
+		{path:"/Test",component:Test404}
+	]
+})
+
+
+new Vue({
+	router,
+	data(){
+		return {
+			aaa:"fade"
+		}
+	},
+	template:`
+		<div id="app">
+
+			<button v-on:click="back">后退</button>
+			<button v-on:click="go">前进</button>
+			<button v-on:click="home">返回首页</button>
+			<button v-on:click="queryValue">query传值</button>
+
+
+			<h1>This is transition</h1>
+
+			<ul>
+				<li>
+					<router-link to="/">/</router-link>
+				</li>
+				<li>
+					<router-link to="/Parent">/Parent</router-link>
+				</li>
+				<li>
+					<router-link to="/Transition">/Transition</router-link>
+				</li>
+				<li>
+					<router-link to="/asdas">/404</router-link>
+				</li>
+				<li>
+					<router-link to="/Test">/Test404</router-link>
+				</li>
+			</ul>
+			
+			<transition :name="aaa" mode="out-in">
+				<router-view></router-view>
+			</transition>
+
+			
+		</div>
+	`,
+
+	methods:{
+		back:function(){
+			router.go(-1)
+		},
+		go:function(){
+			router.go(1)
+		},
+		home:function(){
+			console.log(router);
+			router.push("/")
+		},
+		queryValue:function(){
+			router.push({path:"/",query:{a:1,b:2}})
+		}
+	}
+}).$mount("#app")
