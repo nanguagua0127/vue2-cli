@@ -6,11 +6,11 @@ import Vuex from "vuex"
 
 Vue.use(Vuex)
 
-const state = {//公用的数据
+const state = {//状态对象
 	count : 45
 }
 
-const mutations = {//公用的方法
+const mutations = {//触发状态
 	add(state){
 		state.count ++
 	},
