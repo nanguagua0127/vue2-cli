@@ -20,7 +20,7 @@ const mutations = {//公用的方法
 }
 
 
-export default new Vuex.Store({//数据与方法的接口
+export default new Vuex.Store({//数据与方法的对外接口
 	state,
 	mutations
 })
