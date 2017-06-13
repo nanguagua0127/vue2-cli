@@ -1,0 +1,82 @@
+
+=========================================store.js====================
+//此文件是一个“公用的仓库”
+import Vue from "vue"
+import Vuex from "vuex"
+
+Vue.use(Vuex)
+
+const state = {//状态对象
+	count : 45
+}
+
+const mutations = {//触发状态
+	add(state,n){
+		state.count += n.a
+	},
+	reduce(state){
+		state.count --
+	}
+}
+
+
+const getters = {
+	count:function(state){
+		return state.count += 100
+	}
+}
+
+
+export default new Vuex.Store({//数据与方法的对外接口
+	state,
+	mutations,
+	getters
+})
+
+===============================vuex.vue================================================
+
+<template>
+	<div id="app">
+		<h1>Hi , I am Vuex</h1>
+		<p>{{ count }}</p>
+		<p>
+			<button @click="$store.commit('add',{a:10})">+</button>
+			<button @click="reduce">-</button>
+		</p>
+	</div>
+</template>
+
+<script>
+	import { mapState,mapMutations } from "vuex"//vuex写法必须引入此项
+
+	export default{
+		name:"app",
+		data(){
+			return {
+				appcount:0
+			}
+		},
+		computed:{
+			...mapState([
+				"count"
+			]),
+			count(){
+				return this.$store.getters.count
+			}
+		},
+		methods:mapMutations([
+			"add",
+			"reduce"
+		])
+	}
+</script>
+
+
+<style scoped>
+	
+</style>
+
+
+
+
+
